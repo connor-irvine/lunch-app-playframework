@@ -1,9 +1,18 @@
 package services
 
 import com.google.inject.ImplementedBy
+import java.util.Calendar
 
-class RealGreetingService extends GreetingService {
-  def greeting: String = "Bonjour!"
+import javax.inject.Inject
+
+class RealGreetingService @Inject()(calendar: Calendar) extends GreetingService {
+  def greeting: String = {
+    val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+    if (currentHour < 12)
+      "Good Morning!"
+    else
+      "Good Afternoon!"
+  }
 }
 
 @ImplementedBy(classOf[RealGreetingService])
